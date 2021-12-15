@@ -1,0 +1,14 @@
+const validationMiddleware = require("../../middlewares/validation");
+const { body } = require("express-validator");
+
+const validationsCreate = [
+    body("name").notEmpty().withMessage("The name of the student cannot be empty."),
+    body("lastname").notEmpty().withMessage("The lastname of the student cannot be empty."),
+    body("paymentPlan").notEmpty().withMessage("The payment plan of the student cannot be empty."),
+    body("paymentPlan")
+      .isInt({ min: 1 })
+      .withMessage("Payment plan must be greater than 0."),
+    validationMiddleware,
+  ];
+
+  module.exports = validationsCreate;
