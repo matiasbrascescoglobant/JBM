@@ -5,6 +5,7 @@ const { connect } = require("mongoose");
 const cors = require("cors");
 const morgan = require("morgan");
 const bodyParser = require('body-parser');
+const studentsRouter = require('./routes/index');
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 
 app.use(morgan("tiny"));
 app.use(cors());
-app.use(require('./routes/index'));
+app.use('/students', studentsRouter);
 
 const CONECTOR = process.env.MONGO_URI;
 const OPTIONS = {

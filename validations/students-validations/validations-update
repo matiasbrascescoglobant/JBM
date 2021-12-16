@@ -1,12 +1,14 @@
 const validationMiddleware = require("../../middlewares/validation");
 const { body } = require("express-validator");
+const paymentsPlans = require('../../config/payments-plans');
 
 const validationsUpdate = [
     body("paymentPlan")
         .exists()
         .optional()
-        .isInt({ min: 1 })
-        .withMessage("Payment plan must be greater than 0."),
+        .isNumeric()
+        .isIn(paymentsPlans)
+        .withMessage("The payment plan must have one of the following values " + paymentsPlans.join(", ")),
   validationMiddleware,
 ];
 
