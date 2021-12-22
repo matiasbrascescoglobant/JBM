@@ -1,0 +1,95 @@
+# @name test
+GET http://localhost:8080
+Content-Type: application/json
+
+###
+# @name login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "email": "matias.brascesco@globant.com",
+    "password": "123456"
+}
+
+###
+@token = {{login.response.body.token}}
+
+###
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "email": "prueba.prueba@globant.com",
+    "password": "prueba",
+    "username": "prueba",
+    "name": "prueba",
+    "role": "USER"
+}
+
+###
+PUT http://localhost:8080/users/61c1f9f7f8830128fb9970c6
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "email": "prueba.prueba@globant.com",
+    "password": "prueba",
+    "username": "pruebaModificada",
+    "name": "modifico prueba"
+}
+
+###
+GET http://localhost:8080/users
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+DELETE http://localhost:8080/users/61c0de9816c54b3aef1e453c
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+###
+GET http://localhost:8080/students
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+POST http://localhost:8080/students
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "matias123",
+    "lastname": "brascesco123",
+    "phoneNumber": "123456789",
+    "paymentPlan": 1
+}
+
+###
+PUT http://localhost:8080/students/61c1edb5a0691b582cc73529
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "matiasBra",
+    "lastname": "brascesco432",
+    "phoneNumber": "123456789",
+    "paymentPlan": 6
+}
+
+###
+DELETE http://localhost:8080/students/61ba47dd8350c2143d9efb8f
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+GET http://localhost:8080/protected/resource
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+GET http://localhost:8080/profile
+Content-Type: application/json
+Authorization: Bearer {{token}}

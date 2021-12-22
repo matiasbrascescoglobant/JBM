@@ -1,6 +1,7 @@
 const validationMiddleware = require("../../middlewares/validation");
 const { body } = require("express-validator");
 const paymentsPlans = require('../../config/payments-plans');
+const isAuthorized = require('../../middlewares/authorized-admin-role');
 
 const validationsUpdate = [
     body("paymentPlan")
@@ -10,6 +11,7 @@ const validationsUpdate = [
         .isIn(paymentsPlans)
         .withMessage("The payment plan must have one of the following values " + paymentsPlans.join(", ")),
   validationMiddleware,
+  isAuthorized
 ];
 
 module.exports = validationsUpdate;

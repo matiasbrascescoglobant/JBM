@@ -1,4 +1,4 @@
-const Student = require('../models/students-model');
+/*const Student = require('../models/students-model');
 
 function add_students (request, response){
     let student = new Student({
@@ -25,7 +25,7 @@ function add_students (request, response){
             });
         }
 
-        return response.status(200).json({
+        return response.status(201).json({
             error: false,
             message: 'Success',
             data: result,
@@ -112,6 +112,82 @@ function update_students (request, response){
 }
 
 module.exports = {
+    read_students,
+    add_students,
+    delete_students,
+    update_students
+};*/
+
+import { createStudent, getStudents, updateStudent, deleteStudent } from '../services/student-service';
+
+const read_students = async (req, res) => {
+    try {
+      const students = await getStudents();
+      return res.json({
+        success: true,
+        data: students
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        error: error.message
+      });
+    }
+}
+
+const add_students = async (req, res) => {
+    try{
+        const {name, lastname, phoneNumber, paymentPlan } = req.body;
+
+        const newStudent = await createStudent({
+            name,
+            lastname,
+            phoneNumber,
+            paymentPlan
+        });
+
+        res.status(201).send(newStudent);
+    }catch(error){
+        return res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+const update_students = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const students = await updateStudent(id, req.body);
+        return res.json({
+            success: true,
+            data: students
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+const delete_students = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const students = await deleteStudent(id);
+        return res.json({
+            success: true,
+            data: students
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+export {
     read_students,
     add_students,
     delete_students,
